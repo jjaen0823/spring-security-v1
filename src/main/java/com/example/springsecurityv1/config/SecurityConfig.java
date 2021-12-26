@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/loginForm")
+                .usernameParameter("username")
                 .loginProcessingUrl("/login")  // /login 주소가 호출되면 security 가 낚아채서 대신 로그인 진행
                 .defaultSuccessUrl("/");
     }
