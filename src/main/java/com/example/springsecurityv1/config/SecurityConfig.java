@@ -32,6 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/loginForm")
                 .usernameParameter("username")
                 .loginProcessingUrl("/login")  // /login 주소가 호출되면 security 가 낚아채서 대신 로그인 진행
-                .defaultSuccessUrl("/user");
+                .defaultSuccessUrl("/user")
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm");  // google login 을 하게 되면 default role 은 USER 이다.
     }
 }
