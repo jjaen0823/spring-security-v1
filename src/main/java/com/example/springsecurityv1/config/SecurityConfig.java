@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity  // spring security filter 가 spring filter chain 에 등록된다.
-@EnableGlobalMethodSecurity(securedEnabled = true)  // Secured annotation 활성화
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)  // Secured annotation 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 해당 method 의 return object 를 IoC 로 등록해준다.

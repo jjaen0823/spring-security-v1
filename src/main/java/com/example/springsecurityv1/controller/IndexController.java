@@ -5,6 +5,7 @@ import com.example.springsecurityv1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,9 +69,18 @@ public class IndexController {
         return "redirect:/loginForm";
     }
 
+    // 특정 method (api)에 Security 를 걸고 싶을 때
     @Secured("ROLE_ADMIN")  // 권한 없으면 403 ERROR!!
     @GetMapping("/info")
     public @ResponseBody String info() {
         return "user info";
+    }
+
+    // data method 실행되기 직전에 실행 됨
+    // @PostAuthorize 는 잘 안 씀
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "user data";
     }
 }
