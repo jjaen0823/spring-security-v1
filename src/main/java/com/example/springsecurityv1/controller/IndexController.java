@@ -4,6 +4,7 @@ import com.example.springsecurityv1.model.User;
 import com.example.springsecurityv1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,5 +66,11 @@ public class IndexController {
         userRepository.save(user);
         // password 암호화가 안 되어 있으면 security login 을 할 수 없다!
         return "redirect:/loginForm";
+    }
+
+    @Secured("ROLE_ADMIN")  // 권한 없으면 403 ERROR!!
+    @GetMapping("/info")
+    public @ResponseBody String info() {
+        return "user info";
     }
 }
