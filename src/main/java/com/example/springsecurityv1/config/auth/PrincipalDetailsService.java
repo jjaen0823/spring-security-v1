@@ -21,13 +21,13 @@ public class PrincipalDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    // Security Session [ Authentication [ UserDetails [ User ] ] ]
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // parameter 로 username 을 사용하려면 input name 이 username 으로 동일해야 함.
         // input user name 변경해서 사용하려면 security config 에서 .usernameParameter("") 로 설정해줘야 함.
         User userEntity = userRepository.findByUsername(username);
         if (userEntity != null) {
-            // Security Session [ Authentication [ UserDetails [ User ] ] ]
             return new PrincipalDetails(userEntity);
         }
         return null;
