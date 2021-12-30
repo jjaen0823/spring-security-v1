@@ -8,31 +8,38 @@ package com.example.springsecurityv1.config.auth;
 
 import com.example.springsecurityv1.model.User;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-// Security Session => Authentication => UserDetails(PrincipalDetails)
-public class PrincipalDetails implements UserDetails {
+// Security Session [ Authentication [ UserDetails [ User ] ] ]
+@Getter
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user;  // composition
+    private Map<String, Object> attributes;
 
+    // 일반 login
     public PrincipalDetails(User user) {
         this.user = user;
+    }
+
+    // OAuth login
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
     }
 
     // User 의 권한 return
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();  // ArrayList 는 Collection 의 자식
-        collection.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return user.getRole();
-            }
-        });
+        collection.add((GrantedAuthority) () -> user.getRole());
         return collection;
     }
 
@@ -68,5 +75,15 @@ public class PrincipalDetails implements UserDetails {
         // currentTime - loginDate => 1년 초과 시 return false;
 
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return (String) attributes.get("sub");
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 }
