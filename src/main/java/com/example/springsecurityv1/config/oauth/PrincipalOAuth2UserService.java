@@ -25,6 +25,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
     /* loadUser
     * google 로 부터 받은 userRequest 데이터에 대한 후처리 method
+    * 해당 method 종료 시 @AuthenticationPrincipal annotation 이 만들어진다!!
     * */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {

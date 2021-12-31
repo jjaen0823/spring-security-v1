@@ -22,6 +22,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     }
 
     // Security Session [ Authentication [ UserDetails [ User ] ] ]
+    // 해당 method 종료 시 @AuthenticationPrincipal annotation 이 만들어진다!!
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // parameter 로 username 을 사용하려면 input name 이 username 으로 동일해야 함.
